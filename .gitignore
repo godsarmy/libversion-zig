@@ -1,0 +1,10 @@
+.git/
+.zig-cache/
+CMakeFiles/
+libversion/
+tests/
+zig-out/
+utils/
+*.cmake
+Makefile
+CMake*
