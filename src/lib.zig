@@ -4,7 +4,7 @@ const c = @cImport({
     @cInclude("libversion/version.h");
 });
 
-const flags = enum {
+pub const flags = enum {
     const VERSIONFLAG_P_IS_PATCH = 0x1;
     const VERSIONFLAG_ANY_IS_PATCH = 0x2;
     const VERSIONFLAG_LOWER_BOUND = 0x4;
