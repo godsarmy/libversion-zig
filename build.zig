@@ -19,19 +19,21 @@ pub fn build(b: *std.Build) !void {
 
     const cmake_step = b.addSystemCommand(&[_][]const u8{
         "cmake",
+        "-S",
         libversion_dep.path(".").getPath(b),
+        "-B",
     });
+    const build_dir = cmake_step.addOutputDirectoryArg("out");
 
     b.getInstallStep().dependOn(&cmake_step.step);
-
     const lib = b.addStaticLibrary(.{
         .name = "libversion-zig",
         .target = target,
         .optimize = optimize,
     });
     lib.addIncludePath(libversion_dep.path("."));
-    lib.addIncludePath(b.path("."));
-
+    // build_dir Outputed by cmake_step. This make sure cmake_step runs first
+    lib.addIncludePath(build_dir);
     lib.addCSourceFile(.{
         .file = libversion_dep.path("libversion/compare.c"),
         .flags = c_flags,
@@ -46,7 +48,7 @@ pub fn build(b: *std.Build) !void {
     });
     lib.linkLibC();
 
-    const mod = b.addModule("version", .{
+    const mod = b.addModule("libversion", .{
         .root_source_file = b.path("src/lib.zig"),
         .link_libc = true,
     });
@@ -62,7 +64,7 @@ pub fn build(b: *std.Build) !void {
          .optimize = optimize,
     });
     test_exe.addIncludePath(libversion_dep.path("."));
-    test_exe.addIncludePath(b.path("."));
+    test_exe.addIncludePath(build_dir);
     test_exe.linkLibrary(lib);
     const run_tests = b.addRunArtifact(test_exe);
     test_step.dependOn(&run_tests.step);
