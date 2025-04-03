@@ -5,10 +5,10 @@ const c = @cImport({
 });
 
 pub const flags = enum {
-    const VERSIONFLAG_P_IS_PATCH = 0x1;
-    const VERSIONFLAG_ANY_IS_PATCH = 0x2;
-    const VERSIONFLAG_LOWER_BOUND = 0x4;
-    const VERSIONFLAG_UPPER_BOUND = 0x8;
+    pub const VERSIONFLAG_P_IS_PATCH = 0x1;
+    pub const VERSIONFLAG_ANY_IS_PATCH = 0x2;
+    pub const VERSIONFLAG_LOWER_BOUND = 0x4;
+    pub const VERSIONFLAG_UPPER_BOUND = 0x8;
 };
 
 pub fn versionCompare2(version1: [:0]const u8, version2: [:0]const u8) i32 {
