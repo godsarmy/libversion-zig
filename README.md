@@ -8,6 +8,28 @@ Its release version is in synchronization with [libversion release](https://gith
 ```sh
 zig fetch --save git+https://github.com/godsarmy/libversion-zig
 ```
+Now in your build.zig you can access the module like this:
+
+```zig
+const libversion = b.dependency("libversion", .{
+    .target = target,
+    .optimize = optimize,
+});
+exe.root_module.addImport("libversion", libversion.module("libversion"));
+```
+
+# Usage
+
+ - Import `libversion-zig` like this:
+    ```zig
+    const libversion = @import("libversion");
+    ```
+ - Call Functions in `libversion-zig`
+    ```zig
+    libversion.versionCompare2("1.0", "1.1")  // return -1
+    libversion.versionCompare2("2.0", "1.9")  // return 1
+    libversion.versionCompare2("2.0", "2.0")  // return 0
+    ```
 
 # Zig Release support
 
