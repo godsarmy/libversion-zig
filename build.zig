@@ -53,6 +53,7 @@ pub fn build(b: *std.Build) !void {
         .link_libc = true,
     });
     mod.addIncludePath(libversion_dep.path("."));
+    mod.addIncludePath(build_dir);
     mod.linkLibrary(lib);
 
     b.installArtifact(lib);
