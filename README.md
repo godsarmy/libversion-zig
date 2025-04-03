@@ -27,24 +27,24 @@ exe.root_module.addImport("libversion", libversion.module("libversion"));
  - Call Functions in `libversion-zig`
     ```zig
     // execute versionCompare2
-    libversion.versionCompare2("1.0", "1.1");  // return -1
-    libversion.versionCompare2("2.0", "1.9");  // return 1
-    libversion.versionCompare2("2.0", "2.0");  // return 0
+    _ = libversion.versionCompare2("1.0", "1.1");  // return -1
+    _ = libversion.versionCompare2("2.0", "1.9");  // return 1
+    _ = libversion.versionCompare2("2.0", "2.0");  // return 0
 
     // execute versionCompare4
-    libversion.versionCompare4(
+    _ = libversion.versionCompare4(
         "1.0p1",
         "1.0pre1",
         libversion.flags.VERSIONFLAG_P_IS_PATCH,
         libversion.flags.VERSIONFLAG_P_IS_PATCH,
     );  // return 1
-    libverison.versionCompare4(
+    _ = libverison.versionCompare4(
         "1.0p1",
         "1.0patch1",
         libversion.flags.VERSIONFLAG_P_IS_PATCH,
         libversion.flags.VERSIONFLAG_P_IS_PATCH,
     );  // return 0
-    libversion.versionCompare4(
+    _ = libversion.versionCompare4(
         "1.0p1",
         "1.0post1",
         libversion.flags.VERSIONFLAG_P_IS_PATCH,
