@@ -2,7 +2,7 @@
     .name = .libversion,
     .version = "3.0.3",
     .fingerprint = 0x682f100c2d876e62, // Changing this has security and trust implications.
-    .minimum_zig_version = "0.14.0",
+    .minimum_zig_version = "0.15.1",
     .dependencies = .{
         // See `zig fetch --save <url>` for a command-line interface for adding dependencies.
         .libversion = .{
