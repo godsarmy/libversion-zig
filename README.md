@@ -60,7 +60,7 @@ The plan is to support releases once Zig 1.0 is released but this can still chan
 
 # Development & Build
 
- - Install [Zig 0.14](https://ziglang.org/download/#release-0.14.0).
+ - Install [Zig 0.15.1](https://ziglang.org/download/#release-0.15.1).
  - Clone project by git.
  - In project workspace, run build/test by `zig` command.
     ```sh
