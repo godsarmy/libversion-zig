@@ -55,7 +55,7 @@ exe.root_module.addImport("libversion", libversion.module("libversion"));
 # Zig Release support
 
 `libversion-zig` keeps track the specification of latest [stable version of Zig](https://ziglang.org/download/).
-Currently, it can only be built by [Zig 0.15](https://ziglang.org/download/0.15.2/release-notes.html).
+Currently, it can only be built by [Zig 0.15](https://ziglang.org/download/0.15.1/release-notes.html).
 The plan is to support releases once Zig 1.0 is released but this can still change.
 
 # Development & Build
