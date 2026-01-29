@@ -1,13 +1,13 @@
 .{
     .name = .libversion,
-    .version = "3.0.3",
+    .version = "3.0.4",
     .fingerprint = 0x682f100c2d876e62, // Changing this has security and trust implications.
     .minimum_zig_version = "0.15.1",
     .dependencies = .{
         // See `zig fetch --save <url>` for a command-line interface for adding dependencies.
         .libversion = .{
-            .url = "https://github.com/repology/libversion/archive/refs/tags/3.0.3.zip",
-            .hash = "N-V-__8AAHCOAQBuW5WxnWnp5ig86o6dox4RkwihpwH8LCAP",
+            .url = "https://github.com/repology/libversion/archive/refs/tags/3.0.4.zip",
+            .hash = "N-V-__8AAC-PAQBZW1lR0uA-OJ0Zde8jo8OFpELBRp9ljWyL",
         },
     },
     .paths = .{
