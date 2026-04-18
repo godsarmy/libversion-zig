@@ -1,7 +1,5 @@
 const std = @import("std");
 
-
-
 pub fn build(b: *std.Build) !void {
     var flags = std.array_list.Managed([]const u8).init(b.allocator);
     defer flags.deinit();
@@ -39,22 +37,21 @@ pub fn build(b: *std.Build) !void {
         .linkage = .static,
         .root_module = mod,
     });
-    lib.addIncludePath(libversion_dep.path("."));
+    lib.root_module.addIncludePath(libversion_dep.path("."));
     // build_dir Outputed by cmake_step. This make sure cmake_step runs first
-    lib.addIncludePath(build_dir);
-    lib.addCSourceFile(.{
+    lib.root_module.addIncludePath(build_dir);
+    lib.root_module.addCSourceFile(.{
         .file = libversion_dep.path("libversion/compare.c"),
         .flags = c_flags,
     });
-    lib.addCSourceFile(.{
+    lib.root_module.addCSourceFile(.{
         .file = libversion_dep.path("libversion/private/compare.c"),
         .flags = c_flags,
     });
-    lib.addCSourceFile(.{
+    lib.root_module.addCSourceFile(.{
         .file = libversion_dep.path("libversion/private/parse.c"),
         .flags = c_flags,
     });
-    lib.linkLibC();
     b.installArtifact(lib);
 
     const test_exe = b.addTest(.{
@@ -65,9 +62,9 @@ pub fn build(b: *std.Build) !void {
             .optimize = optimize,
         }),
     });
-    test_exe.addIncludePath(libversion_dep.path("."));
-    test_exe.addIncludePath(build_dir);
-    test_exe.linkLibrary(lib);
+    test_exe.root_module.addIncludePath(libversion_dep.path("."));
+    test_exe.root_module.addIncludePath(build_dir);
+    test_exe.root_module.linkLibrary(lib);
     const run_tests = b.addRunArtifact(test_exe);
 
     const test_step = b.step("test", "Run library tests");

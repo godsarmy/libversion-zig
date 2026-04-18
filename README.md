@@ -38,7 +38,7 @@ exe.root_module.addImport("libversion", libversion.module("libversion"));
         libversion.flag.VERSIONFLAG_P_IS_PATCH,
         libversion.flag.VERSIONFLAG_P_IS_PATCH,
     );  // return 1
-    _ = libverison.versionCompare4(
+    _ = libversion.versionCompare4(
         "1.0p1",
         "1.0patch1",
         libversion.flag.VERSIONFLAG_P_IS_PATCH,
@@ -54,13 +54,13 @@ exe.root_module.addImport("libversion", libversion.module("libversion"));
 
 # Zig Release support
 
-`libversion-zig` keeps track the specification of latest [stable version of Zig](https://ziglang.org/download/).
-Currently, it can only be built by [Zig 0.15](https://ziglang.org/download/0.15.1/release-notes.html).
-The plan is to support releases once Zig 1.0 is released but this can still change.
+`libversion-zig` keeps track of the latest stable [Zig release](https://ziglang.org/download/).
+Currently, it can be built by [Zig 0.16.0](https://ziglang.org/download/0.16.0/release-notes.html).
+The plan is to support releases once Zig 1.0 is released, but this can still change.
 
 # Development & Build
 
- - Install [Zig 0.15.2](https://ziglang.org/download/#release-0.15.2).
+ - Install [Zig 0.16.0](https://ziglang.org/download/0.16.0/).
  - Clone project by git.
  - In project workspace, run build/test by `zig` command.
     ```sh
