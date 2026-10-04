@@ -2,12 +2,12 @@
 
 This package is a thin wrapper around [libversion](https://github.com/repology/libversion)'s C API.
 Bindings are generated from the upstream C header at build time using the official [translate-c package](https://codeberg.org/ziglang/translate-c).
-Its release version is in synchronization with [libversion release](https://github.com/repology/libversion/releases).
+Release versions use `<libversion version>+zig.<Zig version>`, identifying both the [upstream libversion release](https://github.com/repology/libversion/releases) and the supported Zig compiler. The current release is `3.0.4+zig.0.17.0`.
 
 # Installation
 
 ```sh
-zig fetch --save git+https://github.com/godsarmy/libversion-zig
+zig fetch --save 'git+https://github.com/godsarmy/libversion-zig#3.0.4+zig.0.17.0'
 ```
 Now in your build.zig you can access the module like this:
 

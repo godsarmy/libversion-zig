@@ -1,6 +1,6 @@
 .{
     .name = .libversion,
-    .version = "3.0.4",
+    .version = "3.0.4+zig.0.17.0",
     .fingerprint = 0x682f100c2d876e62, // Changing this has security and trust implications.
     .minimum_zig_version = "0.17.0",
     .dependencies = .{
