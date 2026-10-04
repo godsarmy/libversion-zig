@@ -2,12 +2,16 @@
     .name = .libversion,
     .version = "3.0.4",
     .fingerprint = 0x682f100c2d876e62, // Changing this has security and trust implications.
-    .minimum_zig_version = "0.16.0",
+    .minimum_zig_version = "0.17.0",
     .dependencies = .{
         // See `zig fetch --save <url>` for a command-line interface for adding dependencies.
         .libversion = .{
-            .url = "https://github.com/repology/libversion/archive/refs/tags/3.0.4.zip",
+            .url = "git+https://github.com/repology/libversion#3.0.4",
             .hash = "N-V-__8AAC-PAQBZW1lR0uA-OJ0Zde8jo8OFpELBRp9ljWyL",
+        },
+        .translate_c = .{
+            .url = "git+https://codeberg.org/ziglang/translate-c#02ff0c523fb92a38939b04d0145c4a9602a74d56",
+            .hash = "translate_c-2.0.0-Q_BUWltOBwBYABF84EUL208pIFeUIwbBs29FmVBaafN5",
         },
     },
     .paths = .{

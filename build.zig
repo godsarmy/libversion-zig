@@ -1,11 +1,7 @@
 const std = @import("std");
+const Translator = @import("translate_c").Translator;
 
-pub fn build(b: *std.Build) !void {
-    var flags = std.array_list.Managed([]const u8).init(b.allocator);
-    defer flags.deinit();
-    try flags.append("-std=c99");
-
-    const c_flags = flags.items;
+pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
@@ -13,58 +9,52 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
+    const upstream = libversion_dep.path(".");
 
-    const cmake_step = b.addSystemCommand(&[_][]const u8{
-        "cmake",
-        "-S",
-        libversion_dep.path(".").getPath(b),
-        "-B",
-    });
+    const cmake_step = b.addSystemCommand(&.{ "cmake", "-S" });
+    cmake_step.addDirectoryArg(upstream);
+    cmake_step.addArg("-B");
     const build_dir = cmake_step.addOutputDirectoryArg("out");
 
-    const mod = b.createModule(.{
+    const translator: Translator = .init(b.dependency("translate_c", .{}), .{
+        .c_source_file = libversion_dep.path("libversion/version.h"),
+        .target = target,
+        .optimize = optimize,
+    });
+    translator.addIncludePath(upstream);
+    translator.addIncludePath(build_dir);
+    translator.defineCMacro("LIBVERSION_STATIC_DEFINE", null);
+
+    const mod = b.addModule("libversion", .{
         .root_source_file = b.path("src/lib.zig"),
         .target = target,
         .link_libc = true,
         .optimize = optimize,
     });
-    mod.addIncludePath(libversion_dep.path("."));
+    mod.addImport("c", translator.mod);
+    mod.addIncludePath(upstream);
     mod.addIncludePath(build_dir);
+    mod.addCSourceFiles(.{
+        .root = upstream,
+        .files = &.{
+            "libversion/compare.c",
+            "libversion/private/compare.c",
+            "libversion/private/parse.c",
+        },
+        .flags = &.{ "-std=c99", "-DLIBVERSION_STATIC_DEFINE" },
+    });
 
-    b.getInstallStep().dependOn(&cmake_step.step);
     const lib = b.addLibrary(.{
         .name = "libversion-zig",
         .linkage = .static,
         .root_module = mod,
     });
-    lib.root_module.addIncludePath(libversion_dep.path("."));
-    // build_dir Outputed by cmake_step. This make sure cmake_step runs first
-    lib.root_module.addIncludePath(build_dir);
-    lib.root_module.addCSourceFile(.{
-        .file = libversion_dep.path("libversion/compare.c"),
-        .flags = c_flags,
-    });
-    lib.root_module.addCSourceFile(.{
-        .file = libversion_dep.path("libversion/private/compare.c"),
-        .flags = c_flags,
-    });
-    lib.root_module.addCSourceFile(.{
-        .file = libversion_dep.path("libversion/private/parse.c"),
-        .flags = c_flags,
-    });
     b.installArtifact(lib);
 
     const test_exe = b.addTest(.{
         .name = "libversion-zig-test",
-        .root_module = b.createModule(.{
-            .root_source_file = b.path("src/lib.zig"),
-            .target = target,
-            .optimize = optimize,
-        }),
+        .root_module = mod,
     });
-    test_exe.root_module.addIncludePath(libversion_dep.path("."));
-    test_exe.root_module.addIncludePath(build_dir);
-    test_exe.root_module.linkLibrary(lib);
     const run_tests = b.addRunArtifact(test_exe);
 
     const test_step = b.step("test", "Run library tests");

@@ -1,14 +1,12 @@
 const std = @import("std");
 
-const c = @cImport({
-    @cInclude("libversion/version.h");
-});
+const c = @import("c");
 
 pub const flag = enum {
-    pub const VERSIONFLAG_P_IS_PATCH = 0x1;
-    pub const VERSIONFLAG_ANY_IS_PATCH = 0x2;
-    pub const VERSIONFLAG_LOWER_BOUND = 0x4;
-    pub const VERSIONFLAG_UPPER_BOUND = 0x8;
+    pub const VERSIONFLAG_P_IS_PATCH = c.VERSIONFLAG_P_IS_PATCH;
+    pub const VERSIONFLAG_ANY_IS_PATCH = c.VERSIONFLAG_ANY_IS_PATCH;
+    pub const VERSIONFLAG_LOWER_BOUND = c.VERSIONFLAG_LOWER_BOUND;
+    pub const VERSIONFLAG_UPPER_BOUND = c.VERSIONFLAG_UPPER_BOUND;
 };
 
 pub fn versionCompare2(version1: [:0]const u8, version2: [:0]const u8) i32 {
